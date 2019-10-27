@@ -7,13 +7,14 @@ namespace App\Models\Simple;
  */
 class CSVModel extends SimpleModel
 {
+        
 	/**
 	 * Constructor.
 	 * @param string $origin Filename of the CSV file
 	 * @param string $keyfield  Name of the primary key field
 	 * @param string $entity	Entity name meaningful to the persistence
 	 */
-	function __construct($origin = null, $keyfield = 'id', $entity = null)
+	function __construct($origin = null, $keyField = 'id', $entity = null)
 	{
 		parent::__construct();
 
