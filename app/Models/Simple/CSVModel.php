@@ -1,6 +1,6 @@
 <?php
+namespace App\Models\Simple;
 
-namespace Simple\Models;
 
 /**
  * SimpleModel persisted as CSV document
@@ -12,12 +12,12 @@ class CSVModel extends SimpleModel
 	/**
 	 * Constructor.
 	 * @param string $origin Filename of the CSV file
-	 * @param string $keyfield  Name of the primary key field
+	 * @param string $keyField  Name of the primary key field
 	 * @param string $entity	Entity name meaningful to the persistence
 	 */
 	function __construct($origin = null, $keyField = 'id', $entity = null)
 	{
-		parent::__construct();
+		parent::__construct($origin, $keyField, $entity);
 
 		// and populate the collection
 		$this->load();
@@ -42,11 +42,12 @@ class CSVModel extends SimpleModel
 				else
 				{
 					// build object from a row
-					$record = new stdClass();
+					$record = new \stdClass();
 					for ($i = 0; $i < count($this->fields); $i ++ )
 						$record->{$this->fields[$i]} = $data[$i];
-					$key = $record->{$this->keyfield};
-					$this->_data[$key] = $record;
+					$key = $record->{$this->keyField};
+					$this->data[$key] = $record;
+					
 				}
 			}
 			fclose($handle);
@@ -66,7 +67,7 @@ class CSVModel extends SimpleModel
 		if (($handle = fopen($this->origin, "w")) !== FALSE)
 		{
 			fputcsv($handle, $this->fields);
-			foreach ($this->_data as $key => $record)
+			foreach ($this->data as $key => $record)
 				fputcsv($handle, array_values((array) $record));
 			fclose($handle);
 		}
