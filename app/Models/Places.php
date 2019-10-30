@@ -7,7 +7,7 @@ namespace App\Models;
  */
 class Places extends Simple\CSVModel
 {
-    protected $origin = WRITEPATH . 'data/Places.csv';
+    protected $origin = WRITEPATH . 'data/Places2.csv';
     protected $keyField = 'id';
     protected $validationRules = [];
 }
