@@ -11,11 +11,23 @@ class Travel extends BaseController
     $records = $places->findAll();
     
         // get a template parser
+    
+    /*
     $parser = \Config\Services::parser();
+    
         // tell it about the substitions
     return $parser->setData(['records' => $records])
         // and have it render the template with those
     ->render('placeslist');
+    */
+    
+    $parser = \Config\Services::parser();
+    
+    $output = $parser->render('top').
+              $parser->setData(['records' => $records]) -> render('content').
+              $parser->render('bottom');
+    
+    return $output;
     }
     public function showme($id)
     {
