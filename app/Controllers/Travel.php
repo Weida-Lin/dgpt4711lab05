@@ -1,16 +1,23 @@
 <?php
 namespace App\Controllers;
-
 class Travel extends BaseController
 {
     public function index()
     {
         // connect to the model
     $places = new \App\Models\Places();
+    $headings = $places->fields;
         // retrieve all the records
-    $records = $places->findAll();
+    $data = $places->findAll();
     
-        // get a template parser
+    $table = new \CodeIgniter\View\Table();
+    unset($headings[count($headings)-1]);
+    $table->setHeading($headings);
+    foreach($data as $record) {
+    //  unset($record[count($record)-1]);
+    //  $table-addRow($record);
+	$table->addRow($record->id, $record->name, $record->description, $record->link);
+    } 
     
     /*
     $parser = \Config\Services::parser();
@@ -21,10 +28,30 @@ class Travel extends BaseController
     ->render('placeslist');
     */
     
+    /*
+    $model = new \App\Models\Places();
+    $headings = $model->fields;
+    $data = $model->findAll();
+
+    $table = new \CodeIgniter\View\Table();
+    // drop the last heading column
+    unset($headings[count($headings)-1]);
+    $table->setHeading($headings);
+
+    foreach($data as $record) {
+    //  unset($record[count($record)-1]);
+    //  $table-addRow($record);
+	$table->addRow($record->id, $record->name, $record->description);
+    }
+
+    $content = $table->generate();
+     */
+    
     $parser = \Config\Services::parser();
     
     $output = $parser->render('top').
-              $parser->setData(['records' => $records]) -> render('content').
+              //$parser->setData(['records' => $records]) -> render('content').
+              $table->generate().
               $parser->render('bottom');
     
     return $output;
