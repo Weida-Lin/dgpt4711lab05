@@ -13,10 +13,12 @@ class Travel extends BaseController
     $table = new \CodeIgniter\View\Table();
     unset($headings[count($headings)-1]);
     $table->setHeading($headings);
+   
     foreach($data as $record) {
     //  unset($record[count($record)-1]);
     //  $table-addRow($record);
-	$table->addRow($record->id, $record->name, $record->description, $record->link);
+        $linkedThing = anchor("travel/showme/$record->id",$record->id);
+	$table->addRow($linkedThing, $record->name, $record->description, $record->link);
     } 
     
     /*
@@ -56,6 +58,7 @@ class Travel extends BaseController
     
     return $output;
     }
+    
     public function showme($id)
     {
         // connect to the model
